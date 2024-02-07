@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<!-- TypeIt package -->
+<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.typeit/4.4.0/typeit.min.js"></script>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Do CLIPs Always Generalize Better than ImageNet Models?">
+        <meta name="keywords" content="JailBreak, LLM, Security">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Do CLIPs Always Generalize Better than ImageNet Models?</title>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MK2R9XDD88"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+
+            gtag('config', 'G-MK2R9XDD88');
+        </script>
+        <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+        <link rel="stylesheet" href="./static/css/bulma.min.css">
+        <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+        <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+        <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+        <link rel="stylesheet" href="./static/css/index.css">
+        <link rel="icon" href="./static/images/causalcoat.webp">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script defer src="./static/js/fontawesome.all.min.js"></script>
+        <script src="./static/js/bulma-carousel.min.js"></script>
+        <script src="./static/js/bulma-slider.min.js"></script>
+        <script src="./static/js/index.js"></script>
+        <!-- Typing Effect JS -->
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.typeit/4.4.0/typeit.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/typeit/5.10.1/typeit.min.js"></script>
+        <!-- / Typing Effect JS -->
+        <style>
+    .bigdiv {
+      font-size: large;
+      font-family: "Courier New";
+      padding: 2rem;
+    }
+    p {
+      padding: 2rem;
+    }
+        </style>
+    </head>
+    <body>
+        <section class="hero">
+            <div class="hero-body">
+                <div class="container is-max-desktop">
+                    <div class="columns is-centered">
+                        <div class="column has-text-centered">
+                            <h1 class="title is-1 publication-title">Do CLIPs Always Generalize Better than ImageNet Models?</h1>
+                            <div class="is-size-5 publication-authors">
+                                <span class="author-block">
+                                    <a href="https://github.com/QizhouWang">Qizhou Wang</a>
+                                    <sup>1*</sup>
+                                    ,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://linyongver.github.io/PersonalWebsite/">Yong Lin</a>
+                                    <sup>2*</sup>
+                                    ,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://lfhase.win">Yongqiang Chen</a>
+                                    <sup>3*</sup>
+                                    ,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://people.csail.mit.edu/ludwigs/">ludwig Schmidt</a>
+                                    <sup>4</sup>
+                                    ,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://bhanml.github.io/">Bo Han</a>
+                                    <sup>1</sup>
+                                    ,
+                                </span>
+                                <span class="author-block">
+                                    <a href="https://tongzhang-ml.org/">Tong Zhang</a>
+                                    <sup>2</sup>
+                                    ,
+                                </span>
+                            </div>
+                            <div class="is-size-5 publication-authors">
+                                <span class="author-block">
+                                    <sup>1</sup>Hong Kong Baptist University,
+                                </span>
+                                <span class="author-block">
+                                    <sup>2</sup>The Hong Kong University of Science and Technology,
+                                </span>
+                                <span class="author-block">
+                                    <sup>3</sup>The Chinese University of Hong Kong
+                                </span>
+                                <br>
+                                <span class="author-block">
+                                    <sup>4</sup>The University of Washington,
+                                </span>
+                            </div>
+                            <div class="is-size-5 publication-authors">
+                                <span class="author-block" style="font-size: 15px;">(
+                                    <sup>*</sup>Equal Contribution)
+                                </span>
+                            </div>
+                            <div class="column has-text-centered">
+                                <div class="publication-links">
+                                    <!-- PDF Link. -->
+                                    <span class="link-block">
+                                        <a href="https://counteranimal.github.io/" class="external-link button is-normal is-rounded is-dark">
+                                            <span class="icon">
+                                                <i class="fas fa-file-pdf"></i>
+                                            </span>
+                                            <span>Paper</span>
+                                        </a>
+                                    </span>
+                                    <!-- Code Link. -->
+                                    <span class="link-block">
+                                        <a href="https://counteranimal.github.io/" class="external-link button is-normal is-rounded is-dark">
+                                            <span class="icon">
+                                                <i class="fab fa-github"></i>
+                                            </span>
+                                            <span>Code</span>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="content has-text-centered">
+              <img src="./static/images/causalcoat.webp" style="width:200px;">
+            </div>
+            <section class="section">
+                <div class="container is-max-desktop">
+                    <!-- Abstract. -->
+                    <div class="columns is-centered has-text-centered">
+                        <div class="column is-four-fifths">
+                            <h2 class="title is-3">Abstract</h2>
+                            <div class="content has-text-justified">
+                                <p>
+                                    Large vision language models, such as CLIPs, have revolutionized modern machine learning. CLIPs have demonstrated great
+                                    generalizability under distribution shifts, supported by an increasing body of literature. However, the evaluation
+                                    datasets for CLIPs are variations primarily designed for ImageNet benchmarks, which may not fully reflect the extent to
+                                    which CLIPs, e.g., pre-trained on LAION, robust to spurious correlations. To bridge the gap, we collect a real-world
+                                    dataset called CounterAnimal that contains realistic spurious features found in animal photos. CounterAnimal consists of
+                                    a) the common group: comprising animals on common backgrounds, and b) the counter group: including animals on unusual
+                                    backgrounds. The performance drops from common to counter quantify the reliance of models on spurious features (i.e.,
+                                    backgrounds) to predict the animals. We find that CLIPs trained on either LAION or the OpenAI data exhibit notable
+                                    performance drops on counter. Surprisingly, we observe that single-modal models trained on ImageNet are more robust than
+                                    CLIPs. We provide both theoretical and empirical explanations for why CLIPs still learn spurious features. Our findings
+                                    suggest that distribution shifts remain an open problem for CLIPs, and one needs to be cautious about test setups when
+                                    evaluating foundation models pre-trained on a significantly different scale and distribution.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ Abstract. -->
+                </div>
+            </section>
+            
+            <section class="section">
+                <div class="container is-max-desktop">
+                    <!-- Abstract. -->
+                    <div class="columns is-centered has-text-centered">
+                        <div class="column is-four-fifths">
+                            <h2 class="title is-3">COAT Framework</h2>
+                            <div class="content has-text-justified">
+                                <!-- Add image -->
+                                <div class="figure" style="align: left; text-align:center;">
+                                    <img
+                                        src="./static/paper_imgs/coat_illustration.jpg"
+                                        alt="img description"
+                                        width="800"
+                                        height="600"
+                                    >
+                                    <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                        <b>Figure 1</b>. Illustration of the COAT framework.
+                                    </p>
+                                </div>
+                                Inspired by real-world causal discovery applications, given a new task with
+unstructured observational data, COAT aims to uncover the markov blanket with respect to a target variable:
+                                <ul>
+                                    <li>
+                                        <b>(a) Factor Proposal.</b>
+                                        COAT
+                first adopts an LLM to read, comprehend, and relate the rich knowledge during pre-training to propose a series of
+                candidate factors along with some meta-information such as annotation guidelines.
+                                    </li>
+                                    <li>
+                                        <b>(b) Factor Annotation.</b>
+                                        Based on the candidate factors, COAT
+                then prompts another LLM to annotate or fetch the structured values of the unstructured data. With the annotated
+                structured data.
+                                    </li>
+                                    <li>
+                                        <b>(c1) Causal Discovery.</b>
+                                        With the annotated
+                structured data,the causal discovery algorithm is called to find causal relations among the factors
+                                    </li>
+                                    <li>
+                                        <b>(c2) Feedback Construction.</b> By looking at samples where the target variable can not be well explained with the existing factors, LLM is expected to associate more related knowledge to uncover the desired causal factor.
+                                    </li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Abstract. -->
+            </div>
+        </section>
+        <section class="section">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full-width has-text-centered">
+                        <h2 class="title is-3">Results on AppleGastronome Benchmark</h2>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                In this benchmark, gastronomes comment and rate apples according to their preference.
+            Each apple has its own attributes, including size, smell, and taste (e.g. sweet or sour). 
+            The target variable is the rating score.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/ExampleDataApple.png"
+                                style="width:800px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Box 1</b>. Examples of AppleGastronome data, grouped by the value of scores.
+                            </p>
+                        </div>
+                        <br>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b> Can LLMs be an effective factor proposer?</b>
+                                It can be found that,
+compared to other uses of LLMs, COAT obtain significant improvements regardless of which LLM is used. In contrast,
+directly using LLMs to reason about the causal relations results in a high sensitivity to the capabilities of LLMs.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/table_1_AppleResults.png"
+                                style="width:600px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Table 1</b>
+                                . Causal discovery results in AppleGastronome. MB, NMB and OT refer to the number of causal factors discovered
+              in the underlying markov blanket, in the causal graph but not the markov blanket, and the other variables. Recall, precision,
+              and F1 for factor proposal evaluate the discovered causal ancestors. Recall, precision, and F1 for relation extraction evaluate
+              the recovery of the causal edges. The Data baseline refers to pairwise causal relation inference (Kiciman et al., 2023) based
+              on the factors discovered by Data.
+                            </p>
+                        </div>
+                        <br>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b> Can COAT reliably recover the causal relationships?</b>
+                                Compared to the ground truth results, directly adopting LLMs
+to reason about the causal relations can easily elicit lots of false positive causal relations. In contrast, the relations recovered
+by COAT have a high precision as well as the recall. The directed edge between “taste” and “juiciness” can not be recovered
+by COAT is because of the limitations of FCI.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/Example_Apple.png"
+                                style="width:800px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Figure 2</b>. The discovered causal graphs in AppleGastronome.
+                            </p>
+                        </div>
+                        <br>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b>Can LLMs be an effective factor annotator?</b>
+                                Moreover, since LLMs are also used to annotate the data according
+to the proposed annotation guidelines, we analyze the capabilities of LLMs in terms of annotation accuracy. It can be found that both LLMs are generally good at annotating objective attributes. When it comes to
+              the human subjective preferences, the performance of GPT-3.5 will decrease while being relatively high.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/Annotation_Accu.png"
+                                style="width:500px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Figure 3</b>.  Annotation accuracies of GPT-4 and GPT-3.5 for apple attributes and preference matchness in AppleGastronome
+                            </p>
+                        </div>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b>Will LLMs introduce additional confounders in annotating factors?</b>
+                                In addition, since the annotated results by
+LLMs will involve additional noises, or even additional confounders, we also conduct independence tests among the annotation noises and the features.  It can be found that, with highly capable LLMs, e.g., GPT-4-Turbo, the dependencies can be controlled under an acceptable level.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/indp_test_apple.png"
+                                style="width:300px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Table 2</b>
+                                . Independence tests of the annotation noises with annotated features and other noises in AppleGastronome.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column is-full-width has-text-centered">
+                        <h2 class="title is-3">Results on Neuropathic Benchmark</h2>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                In the original dataset, there are three levels of causal variables, including the symptom-level, radiculopathy-level and
+the pathophysiology-level. In this project, we mainly consider the target variable of
+                                <b>right shoulder impingement</b>
+                                .
+When generating the clinical diagnosis notes as x using GPT-4, we will
+                                <b>
+                                    avoid any mentioning of variables other than
+symptoms
+                                </b>
+                                .
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/ExampleDataNeuro.png"
+                                style="width:800px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Box 2</b>. Examples of Neuropathic data, grouped by the presence of one certain symptom.
+                            </p>
+                        </div>
+                        <br>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b> Factor proposal.</b>
+                                Similarly, we can find that
+              COAT consistently outperforms all of the baselines regardless of which LLMs are incorporated. In particular, COAT
+              can boost the weakest backbone LLaMA2-7b to be better than any other LLMs.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/table_2_NeuroResults.png"
+                                style="width:400px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Table 3</b>
+                                . Causal discovery results in Neuropathic. PA, AN, and OT refer to the parents, ancestors, and others, respectively.
+              Accuracy and F1 measure the recovery of the causal ancestors.
+                            </p>
+                        </div>
+                        <br>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b> Causal relation recovery.</b>
+                                Due to the faithfulness issue of the original dataset (Tu et al., 2019), we mainly conduct a qualitative comparison between the ground truth that is faithful to the data, against the
+              baselines and COAT.
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/paper_imgs/Example_Neuro.png"
+                                style="width:800px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Figure 4</b>. The discovered causal graphs in Neuropathic.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section" id="BibTeX">
+            <div class="container is-max-desktop content">
+                <h2 class="title">Contact</h2>
+                <p>
+                    Welcome to check our paper for more details of the research work. If there is any question, please feel free to contact us.
+                </p>
+                <p>
+                    If you find our paper and repo useful, please consider to cite:
+                </p>
+                <pre>
+                    <code>
+    @article{causalcoat2024,
+      title={Do CLIPs Always Generalize Better than ImageNet Models?}, 
+      author={Chenxi Liu and Yongqiang Chen and Tongliang Liu and Mingming Gong and James Cheng and Bo Han and Kun Zhang},
+      year={2024},
+      journal = {arXiv preprint},
+      volume = {arXiv:2402.03941}
+    }
+                    </code>
+                </pre>
+                <br>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="container">
+                <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+                <div class="columns is-centered">
+                    <div class="column is-8">
+                        <div class="content">
+                            <p>
+                                Thanks for the source template from
+                                <a href="https://github.com/nerfies/nerfies.github.io">here</a>
+                                .
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
