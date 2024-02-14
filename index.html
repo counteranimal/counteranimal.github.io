@@ -56,7 +56,7 @@
                             <h1 class="title is-1 publication-title">Do CLIPs Always Generalize Better than ImageNet Models?</h1>
                             <div class="is-size-5 publication-authors">
                                 <span class="author-block">
-                                    <a href="https://github.com/QizhouWang">Qizhou Wang</a>
+                                    <a href="https://qizhouwang.github.io/homepage/">Qizhou Wang</a>
                                     <sup>1*</sup>
                                     ,
                                 </span>
@@ -82,23 +82,26 @@
                                 </span>
                                 <span class="author-block">
                                     <a href="https://tongzhang-ml.org/">Tong Zhang</a>
-                                    <sup>2</sup>
-                                    ,
+                                    <sup>5</sup>
                                 </span>
                             </div>
                             <div class="is-size-5 publication-authors">
                                 <span class="author-block">
-                                    <sup>1</sup>Hong Kong Baptist University,
-                                </span>
+                                    <sup>1</sup>Hong Kong Baptist University
+                                </span><br>
                                 <span class="author-block">
-                                    <sup>2</sup>The Hong Kong University of Science and Technology,
-                                </span>
+                                    <sup>2</sup>The Hong Kong University of Science and Technology
+                                </span><br>
                                 <span class="author-block">
                                     <sup>3</sup>The Chinese University of Hong Kong
                                 </span>
                                 <br>
                                 <span class="author-block">
-                                    <sup>4</sup>The University of Washington,
+                                    <sup>4</sup>The University of Washington
+                                </span>
+                                <br>
+                                <span class="author-block">
+                                    <sup>5</sup> University of Illinois Urbana-Champaign
                                 </span>
                             </div>
                             <div class="is-size-5 publication-authors">
@@ -165,235 +168,217 @@
             
             <section class="section">
                 <div class="container is-max-desktop">
-                    <!-- Abstract. -->
-                    <div class="columns is-centered has-text-centered">
-                        <div class="column is-four-fifths">
-                            <h2 class="title is-3">COAT Framework</h2>
-                            <div class="content has-text-justified">
-                                <!-- Add image -->
-                                <div class="figure" style="align: left; text-align:center;">
-                                    <img
-                                        src="./static/paper_imgs/coat_illustration.jpg"
-                                        alt="img description"
-                                        width="800"
-                                        height="600"
-                                    >
-                                    <p class="content is-centered" style="color: gray; font-size: 10pt;">
-                                        <b>Figure 1</b>. Illustration of the COAT framework.
-                                    </p>
-                                </div>
-                                Inspired by real-world causal discovery applications, given a new task with
-unstructured observational data, COAT aims to uncover the markov blanket with respect to a target variable:
-                                <ul>
-                                    <li>
-                                        <b>(a) Factor Proposal.</b>
-                                        COAT
-                first adopts an LLM to read, comprehend, and relate the rich knowledge during pre-training to propose a series of
-                candidate factors along with some meta-information such as annotation guidelines.
-                                    </li>
-                                    <li>
-                                        <b>(b) Factor Annotation.</b>
-                                        Based on the candidate factors, COAT
-                then prompts another LLM to annotate or fetch the structured values of the unstructured data. With the annotated
-                structured data.
-                                    </li>
-                                    <li>
-                                        <b>(c1) Causal Discovery.</b>
-                                        With the annotated
-                structured data,the causal discovery algorithm is called to find causal relations among the factors
-                                    </li>
-                                    <li>
-                                        <b>(c2) Feedback Construction.</b> By looking at samples where the target variable can not be well explained with the existing factors, LLM is expected to associate more related knowledge to uncover the desired causal factor.
-                                    </li>
-                                </ul>
+                    <div class="column is-full-width has-text-centered">
+                        <h2 class="title is-3">CounterAnimal Dataset</h2>
+                        
+                        
+            
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                Previous works often claim that CLIPs can resolve the distribution shifts, but their adopted datasets to test the effective robustness 
+                                are primarily designed for the ImageNet-based models. It may not fully reflect the cases of CLIPs. Therefore, we collect a real-world 
+                                dataset named CounterAnimal, containing spurious features for animal photos. Data therein are separated into two groups:
+                            </p>
+                            <ul>
+                                <li>
+                                    <b>The common group</b> contains photos of animals in frequently appeared backgrounds.  
+                                </li>
+
+                                <li>
+                                    <b>The counter group</b> contains photos of animals in less commonly yet still plausibly appeared backgrounds. 
+                                </li>
+                            </ul>
+                            <p>
+                                The common group captures some real-world biases that CLIPs-trained on web-scale data may naturally inherit. Therefore, by comparing the performance on the
+                                common group against that on the counter group, one can quantify to what extent CLIPs rely on spurious features.  
+                            </p>
+                        </div>
+
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/images/dataset_example_ice_bear.png"
+                                alt="img description"
+                                style="width:800px;"
+                                class="result-image"
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Figure 1</b>. Examplary photos with the object label of <b>ice bear</b>, further separating into <b>common</b> and <b>counter</b>
+                                groups based on different backgrounds (i.e., snow and grass). The performance
+                                drop in zero-shot inference by CLIP-LAION400M-ViT/B/32 is significant, from common (97.62%) to counter (70.91%).
+                            </p>
+                        </div>
+
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                We take <a href="https://www.inaturalist.org/observations">iNaturalist</a> as our raw data source, manually labeling objects (i.e., animal names)
+                                and backgrounds (e.g., grass and snow) to find spurious features that can hinder the robustness of CLIPs. The resulting dataset has <b>7,174</b> common photos
+                                and <b>5,926</b> counter photos, covering a total of <b>45</b> animal classes as a subset of the ImageNet-1K label space. Our dataset can be downloaded 
+                                by the following <a href="https://drive.google.com/file/d/1SrPF0rgXKy_4z1kXsIYJt-2puM78LbAG/view?usp=sharing">link</a>. We further summarize the 
+                                object names as well as the background names for common and counter parts.
+                            </p>
+                        </div>
+
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/images/table_names.png"
+                                alt="img description"
+                                style="width:1000px;"
+                                class="result-image"
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Table 1</b>. The full object names as well as the background names of common and counter groups. The full names of the labels
+                                are presented following the fashion of the ImageNet-1K dataset. 
                             </p>
                         </div>
                     </div>
                 </div>
-                <!--/ Abstract. -->
-            </div>
-        </section>
+            </section>
         <section class="section">
             <div class="container is-max-desktop">
                 <div class="columns is-centered">
                     <div class="column is-full-width has-text-centered">
-                        <h2 class="title is-3">Results on AppleGastronome Benchmark</h2>
+                        <h2 class="title is-3">Results on our CounterAnimal Dataset</h2>
                         <div class="content has-text-justified is-centered">
                             <p>
-                                In this benchmark, gastronomes comment and rate apples according to their preference.
-            Each apple has its own attributes, including size, smell, and taste (e.g. sweet or sour). 
-            The target variable is the rating score.
+                                We evaluate various learning schemes on CounterAnimal and employ two evaluation setups to fit different learning setups: 
+                            </p>
+
+                            <ul>
+                                <li>
+                                    <b>1 vs 1000 setup:</b> using the full ImageNet-1K class names as the candidate label space. 
+                                </li>
+                                <li>
+                                    <b>1 vs 20 setup:</b> using the top-20 most confusing classes for the CLIP model as the candidate label space. 
+                                </li>
+                            </ul>
+                            <p>
+                                We summarize the common and counter performance on counteranimal across various learning schemes, including CLIP pre-trained 
+                                models, ImageNet models, and more advanced LVLMs such as MiniGPT4 and LLaVA. Our experiments also consider various pre-train
+                                datasets for CLIPs and various backbones models. 
                             </p>
                         </div>
+
                         <div class="content has-text-centered">
                             <img
-                                src="./static/paper_imgs/ExampleDataApple.png"
-                                style="width:800px;"
+                                src="./static/images/full_results.png"
+                                style="width:850px;"
                                 class="result-image"
                                 alt="Interpolation end reference image."
                             >
                             <p class="content is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Box 1</b>. Examples of AppleGastronome data, grouped by the value of scores.
+                                <b>Figure 2</b>. The common vs counter performance for CLIPs, ImageNet models, and more advanced LVLMs. The size of markers
+                                indicates the backbone scales and the color shade of markers indicates the pre-train dataset scales. We depict the prefect trend 
+                                (i.e., y=x) where models donot learn any spurious correlations, linearly fit the trends for CLIPs and ImageNet models; highlight 
+                                the CLIP models pre-trained on two high-quality datasets, i.e., DataComp (CLIP-DC) and DFN (CLIP-DFN). 
                             </p>
                         </div>
-                        <br>
                         <div class="content has-text-justified is-centered">
                             <p>
-                                <b> Can LLMs be an effective factor proposer?</b>
-                                It can be found that,
-compared to other uses of LLMs, COAT obtain significant improvements regardless of which LLM is used. In contrast,
-directly using LLMs to reason about the causal relations results in a high sensitivity to the capabilities of LLMs.
+                                <b>We highlight some of the key observations as follows. </b>
+                                <br><br>
+                                <b>CLIP models still learn spurious correlations.</b> We observe that CLIP models exhibit non-trivial performance drop from common
+                                to counter groups. It implies that CounterAnimal characterizes some general spurious correlations that are commonly present in 
+                                large-scale real-world multimodal datasets. Moreover, CLIP may still learn the spurious features in real-world pre-train datasets. 
+                                We present several examples of the CLIP models for the performance drop. 
                             </p>
                         </div>
                         <div class="content has-text-centered">
                             <img
-                                src="./static/paper_imgs/table_1_AppleResults.png"
-                                style="width:600px;"
-                                class="result-image"
-                                alt="Interpolation end reference image."
-                            >
-                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Table 1</b>
-                                . Causal discovery results in AppleGastronome. MB, NMB and OT refer to the number of causal factors discovered
-              in the underlying markov blanket, in the causal graph but not the markov blanket, and the other variables. Recall, precision,
-              and F1 for factor proposal evaluate the discovered causal ancestors. Recall, precision, and F1 for relation extraction evaluate
-              the recovery of the causal edges. The Data baseline refers to pairwise causal relation inference (Kiciman et al., 2023) based
-              on the factors discovered by Data.
-                            </p>
-                        </div>
-                        <br>
-                        <div class="content has-text-justified is-centered">
-                            <p>
-                                <b> Can COAT reliably recover the causal relationships?</b>
-                                Compared to the ground truth results, directly adopting LLMs
-to reason about the causal relations can easily elicit lots of false positive causal relations. In contrast, the relations recovered
-by COAT have a high precision as well as the recall. The directed edge between “taste” and “juiciness” can not be recovered
-by COAT is because of the limitations of FCI.
-                            </p>
-                        </div>
-                        <div class="content has-text-centered">
-                            <img
-                                src="./static/paper_imgs/Example_Apple.png"
-                                style="width:800px;"
+                                src="./static/images/performance_drop.png"
+                                style="width:650px;"
                                 class="result-image"
                                 alt="Interpolation end reference image."
                             >
                             <p class="content is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Figure 2</b>. The discovered causal graphs in AppleGastronome.
-                            </p>
-                        </div>
-                        <br>
-                        <div class="content has-text-justified is-centered">
-                            <p>
-                                <b>Can LLMs be an effective factor annotator?</b>
-                                Moreover, since LLMs are also used to annotate the data according
-to the proposed annotation guidelines, we analyze the capabilities of LLMs in terms of annotation accuracy. It can be found that both LLMs are generally good at annotating objective attributes. When it comes to
-              the human subjective preferences, the performance of GPT-3.5 will decrease while being relatively high.
-                            </p>
-                        </div>
-                        <div class="content has-text-centered">
-                            <img
-                                src="./static/paper_imgs/Annotation_Accu.png"
-                                style="width:500px;"
-                                class="result-image"
-                                alt="Interpolation end reference image."
-                            >
-                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Figure 3</b>.  Annotation accuracies of GPT-4 and GPT-3.5 for apple attributes and preference matchness in AppleGastronome
+                                <b>Figure 3</b>. Comparison of the common and counter groups for varying CLIP setups: 
+                                a) Fixing the pre-train dataset to be LAION400M and b) fixing the backbone to be ViT/B/32. 
+                                The 1 vs 1000 results are given.
                             </p>
                         </div>
                         <div class="content has-text-justified is-centered">
                             <p>
-                                <b>Will LLMs introduce additional confounders in annotating factors?</b>
-                                In addition, since the annotated results by
-LLMs will involve additional noises, or even additional confounders, we also conduct independence tests among the annotation noises and the features.  It can be found that, with highly capable LLMs, e.g., GPT-4-Turbo, the dependencies can be controlled under an acceptable level.
+                                <b>ImageNet models are more robust to spurious features in CounterAnimal.</b>  Compared with CLIPs, we find that 
+                                ImageNet models exhibit better robustness to the presented spurious correlations. It is evident from Figure 2 by the superior performance 
+                                of ImageNet models on the counter groups and similar common performance with respect to CLIPs. Our findings contrast with previous
+                                studies that evaluated distribution shifts using ImageNet variants, indicating that the CLIP does not necessarily generalize 
+                                better than ImageNet models. We illustrate two comparison with fixed backbones as follows. 
                             </p>
                         </div>
+
                         <div class="content has-text-centered">
                             <img
-                                src="./static/paper_imgs/indp_test_apple.png"
-                                style="width:300px;"
-                                class="result-image"
-                                alt="Interpolation end reference image."
-                            >
-                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Table 2</b>
-                                . Independence tests of the annotation noises with annotated features and other noises in AppleGastronome.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="section">
-            <div class="container is-max-desktop">
-                <div class="columns is-centered">
-                    <div class="column is-full-width has-text-centered">
-                        <h2 class="title is-3">Results on Neuropathic Benchmark</h2>
-                        <div class="content has-text-justified is-centered">
-                            <p>
-                                In the original dataset, there are three levels of causal variables, including the symptom-level, radiculopathy-level and
-the pathophysiology-level. In this project, we mainly consider the target variable of
-                                <b>right shoulder impingement</b>
-                                .
-When generating the clinical diagnosis notes as x using GPT-4, we will
-                                <b>
-                                    avoid any mentioning of variables other than
-symptoms
-                                </b>
-                                .
-                            </p>
-                        </div>
-                        <div class="content has-text-centered">
-                            <img
-                                src="./static/paper_imgs/ExampleDataNeuro.png"
-                                style="width:800px;"
+                                src="./static/images/clip and imagenet.png"
+                                style="width:650px;"
                                 class="result-image"
                                 alt="Interpolation end reference image."
                             >
                             <p class="content is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Box 2</b>. Examples of Neuropathic data, grouped by the presence of one certain symptom.
+                                <b>Figure 4</b>. Comparison between CLIPs and ImageNet Models. The 1 vs. 1000 results are given. 
                             </p>
                         </div>
-                        <br>
+                        
                         <div class="content has-text-justified is-centered">
                             <p>
-                                <b> Factor proposal.</b>
-                                Similarly, we can find that
-              COAT consistently outperforms all of the baselines regardless of which LLMs are incorporated. In particular, COAT
-              can boost the weakest backbone LLaMA2-7b to be better than any other LLMs.
+                                <b>Larger CLIPs are more robust.</b> in Figure 2, we use sizes and color shades of markers to indicate 
+                                the scales of backbones and pre-train datasets, respectively. Overall, larger CLIP backbones (i.e., larger markers) can improve the
+                                counter performance, implying that scaling up backbones may enhance robustness. In contrast, increasing the scale of the 
+                                pre-train dataset (i.e., darker markers) does not yield the same improvement, implying that collecting more data alone cannot rectify much bias.
+                                We present several comparison with either fixed pre-train datasets and fixed backbones as follows.
                             </p>
                         </div>
+
                         <div class="content has-text-centered">
                             <img
-                                src="./static/paper_imgs/table_2_NeuroResults.png"
-                                style="width:400px;"
-                                class="result-image"
-                                alt="Interpolation end reference image."
-                            >
-                            <p class="content has-text-justified is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Table 3</b>
-                                . Causal discovery results in Neuropathic. PA, AN, and OT refer to the parents, ancestors, and others, respectively.
-              Accuracy and F1 measure the recovery of the causal ancestors.
-                            </p>
-                        </div>
-                        <br>
-                        <div class="content has-text-justified is-centered">
-                            <p>
-                                <b> Causal relation recovery.</b>
-                                Due to the faithfulness issue of the original dataset (Tu et al., 2019), we mainly conduct a qualitative comparison between the ground truth that is faithful to the data, against the
-              baselines and COAT.
-                            </p>
-                        </div>
-                        <div class="content has-text-centered">
-                            <img
-                                src="./static/paper_imgs/Example_Neuro.png"
-                                style="width:800px;"
+                                src="./static/images/fixed_backbones.png"
+                                style="width:650px;"
                                 class="result-image"
                                 alt="Interpolation end reference image."
                             >
                             <p class="content is-centered" style="color: gray; font-size: 10pt;">
-                                <b>Figure 4</b>. The discovered causal graphs in Neuropathic.
+                                <b>Figure 5</b>. Comparison with different pre-train datasets and fixed backbones. 1 vs. 1000 results are given. 
+                            </p>
+                        </div>
+
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/images/fixed_datasets.png"
+                                style="width:650px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                            <p class="content is-centered" style="color: gray; font-size: 10pt;">
+                                <b>Figure 6</b>. Comparison with different backbones and fixed pre-train datasets. 1 vs. 1000 results are given. 
+                            </p>
+                        </div>
+
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b>CLIP model pre-trained on high-quality data are more robust.</b> We discern two classes of CLIPs in Figure 2, a) those 
+                                pre-trained on high-quality datasets, i.e., DataComp (CLIP-DC) and {DFN}~\citep{fang2023data} (CLIP-DFN), and b) those 
+                                pre-trained on other datasets that lack stringent curation (CLIP). As we can see, CLIPs pre-trained on high-quality data 
+                                generally exhibit superior robustness, suggesting that improving data quality is still a promising way against spurious features. 
+                            </p>
+                        </div>
+
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                <b>CLIP objective may not offer additional robustness.</b> To better understand the observed phenomena, we present a theoretical 
+                                analysis of why CLIPs rely on spurious features. 
+                            </p>
+                        </div>
+                        <div class="content has-text-centered">
+                            <img
+                                src="./static/images/theory.png"
+                                style="width:900px;"
+                                class="result-image"
+                                alt="Interpolation end reference image."
+                            >
+                        </div>
+                        <div class="content has-text-justified is-centered">
+                            <p>
+                                Theorem 1 implies that, once there exists a relatively strong correlation between the object 
+                                captions and the parts of image backgrounds, CLIPs will learn to align the backgrounds, i.e., spurious features, with object 
+                                captions. The theoretical analysis also align with our empirical findings. 
                             </p>
                         </div>
                     </div>
@@ -413,10 +398,10 @@ symptoms
                     <code>
     @article{causalcoat2024,
       title={Do CLIPs Always Generalize Better than ImageNet Models?}, 
-      author={Chenxi Liu and Yongqiang Chen and Tongliang Liu and Mingming Gong and James Cheng and Bo Han and Kun Zhang},
+      author={Qizhou Wang and Yong Lin and Yongqiang Chen and Ludwig Schmidt and Bo Han and Tong Zhang},
       year={2024},
       journal = {arXiv preprint},
-      volume = {arXiv:2402.03941}
+      volume = {arXiv:XXXXXXX}
     }
                     </code>
                 </pre>
